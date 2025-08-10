@@ -1,16 +1,24 @@
-
 from pydantic import BaseModel
 from datetime import datetime
+from typing import Optional
 
-class ReadingCreate(BaseModel):
-    user_id: str
+class ReadingBase(BaseModel):
+    user_id: Optional[str]
+    main_subscription: str
+    sub_subscription: Optional[str] = None
+    address: str
     lat: float
-    lon: float
-    value: float
+    lng: float
+    altitude: Optional[float] = None
+    accuracy: Optional[float] = None
+    image_path: Optional[str] = None
 
-class ReadingOut(ReadingCreate):
+class ReadingCreate(ReadingBase):
+    created_at: Optional[datetime] = None
+
+class ReadingOut(ReadingBase):
     id: int
-    timestamp: datetime
+    created_at: datetime
 
     class Config:
         orm_mode = True
